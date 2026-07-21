@@ -1,0 +1,121 @@
+.why {
+  background-color: var(--beige, #FAF8F5);
+}
+
+.why-container {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.why-info {
+  text-align: left;
+}
+
+.why-title {
+  text-align: left !important;
+  margin-bottom: 24px !important;
+}
+
+.why-title::after {
+  left: 30px !important;
+  transform: none !important;
+}
+
+.why-desc {
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  font-size: 16px;
+  color: var(--brown, #43352D);
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+.why-cta-wrapper {
+  margin-top: 10px;
+}
+
+.why-cta {
+  display: inline-block;
+  background-color: var(--dark, #1b1b1b);
+  color: var(--white, #ffffff);
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 14px 36px;
+  border-radius: 30px;
+  box-shadow: 0 6px 15px rgba(27, 27, 27, 0.15);
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.why-cta:hover {
+  transform: translateY(-2px);
+  background-color: var(--gold, #C89B3C);
+  box-shadow: 0 8px 20px rgba(200, 155, 60, 0.25);
+}
+
+/* Right side list grid */
+.why-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.why-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 16px;
+  background-color: var(--white, #ffffff);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--cream, #FFF8EF);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.why-item:hover {
+  transform: translateX(5px);
+  border-color: var(--pink, #EFA7B5);
+}
+
+.why-check-circle {
+  width: 28px;
+  height: 28px;
+  background-color: var(--gold, #C89B3C);
+  color: var(--white, #ffffff);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.why-item-content {
+  text-align: left;
+}
+
+.why-item-title {
+  font-family: var(--font-heading, 'Playfair Display', serif);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--dark, #1b1b1b);
+  margin-bottom: 4px;
+}
+
+.why-item-desc {
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  font-size: 13px;
+  color: var(--brown, #43352D);
+  line-height: 1.5;
+}
+
+@media (max-width: 991px) {
+  .why-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}

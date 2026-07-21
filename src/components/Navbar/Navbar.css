@@ -1,0 +1,240 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap');
+
+.navbar {
+  width: 100%;
+  background-color: #ffffff;
+  border-top: 3px solid var(--brown, #43352D);
+  border-bottom: 1px solid var(--brown, #43352D);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  font-family: 'Outfit', sans-serif;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2px 24px;
+  position: relative;
+  min-height: 80px;
+}
+
+/* Logo Section */
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  height: 76px;
+  transition: transform 0.3s ease;
+  scale: 2;
+  margin-left: 30px;
+}
+
+.navbar-logo:hover {
+  transform: scale(1.02);
+}
+
+.navbar-logo img {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Navigation Links */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navbar-item {
+  position: relative;
+}
+
+.navbar-link {
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1b1b1b;
+  text-transform: none;
+  letter-spacing: 0.2px;
+  padding: 8px 4px;
+  transition: color 0.3s ease;
+  position: relative;
+  display: block;
+}
+
+.navbar-link:hover {
+  color: #BF8301;
+}
+
+.navbar-link.active {
+  color: #BF8301;
+}
+
+/* Phone Contact Section (Desktop) */
+.navbar-contact {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-phone {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.navbar-phone:hover {
+  transform: translateY(-2px);
+}
+
+.phone-icon-wrapper {
+  color: #BF8301;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.phone-icon {
+  font-size: 24px;
+}
+
+.phone-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.phone-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #BF8301;
+  letter-spacing: 1px;
+  line-height: 1.2;
+}
+
+.phone-number {
+  font-family: 'Outfit', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1b1b1b;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+  margin-top: 2px;
+}
+
+/* Hamburger Menu Icon */
+.navbar-menu-icon {
+  display: none;
+  font-size: 24px;
+  color: #1b1b1b;
+  cursor: pointer;
+  z-index: 1001;
+  transition: color 0.3s ease;
+}
+
+.navbar-menu-icon:hover {
+  color: #BF8301;
+}
+
+.mobile-only-contact {
+  display: none;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .navbar-container {
+    padding: 2px 20px;
+    min-height: 70px;
+  }
+
+  .navbar-logo {
+    height: 66px;
+  }
+
+  .navbar-menu-icon {
+    display: block;
+  }
+
+  .navbar-contact {
+    display: none;
+    /* Hide desktop phone section */
+  }
+
+  .navbar-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    background-color: #ffffff;
+    border-left: 2px solid #BF8301;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 100px 30px 40px;
+    gap: 24px;
+    transition: right 0.4s cubic-bezier(0.77, 0.2, 0.05, 1);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .navbar-links.active {
+    right: 0;
+  }
+
+  .navbar-link {
+    font-size: 17px;
+    padding: 10px 0;
+  }
+
+  .mobile-only-contact {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    border-top: 1px solid var(--border, #e5e4e7);
+    padding-top: 24px;
+  }
+
+  .navbar-phone-mobile {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+  }
+
+  .phone-icon-mob {
+    color: #BF8301;
+    font-size: 20px;
+  }
+
+  .phone-label-mob {
+    display: block;
+    font-family: 'Outfit', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: #BF8301;
+    letter-spacing: 1px;
+  }
+
+  .phone-number-mob {
+    display: block;
+    font-family: 'Outfit', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #1b1b1b;
+    margin-top: 4px;
+  }
+}

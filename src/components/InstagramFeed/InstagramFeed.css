@@ -1,0 +1,171 @@
+.instagram {
+  background-color: var(--beige, #FAF8F5);
+}
+
+.instagram-desc {
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  font-size: 15px;
+  color: var(--brown, #43352D);
+  max-width: 600px;
+  margin: -35px auto 40px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.instagram-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.instagram-card {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  overflow: hidden;
+  display: block;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+.instagram-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+/* Play Badge for Reels */
+.insta-badge-type {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: var(--white, #ffffff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  font-size: 10px;
+  backdrop-filter: blur(2px);
+}
+
+.badge-play-icon {
+  margin-left: 2px; /* Center-align single play button arrow */
+}
+
+/* Hover Overlay */
+.instagram-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 3;
+}
+
+.instagram-card:hover .instagram-overlay {
+  opacity: 1;
+}
+
+.instagram-card:hover .instagram-img {
+  transform: scale(1.08);
+}
+
+.instagram-stats {
+  display: flex;
+  gap: 20px;
+  color: var(--white, #ffffff);
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stat-icon {
+  font-size: 18px;
+}
+
+.instagram-follow-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--gold, #C89B3C);
+  color: var(--white, #ffffff);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.insta-follow-icon {
+  font-size: 14px;
+}
+
+/* Follow Button CTA */
+.instagram-btn-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.instagram-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--white, #ffffff);
+  border: 1px solid var(--pink, #EFA7B5);
+  color: var(--dark, #1b1b1b);
+  font-family: var(--font-body, 'Poppins', sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 30px;
+  border-radius: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+  transition: all 0.3s ease;
+}
+
+.instagram-btn:hover {
+  background-color: var(--pink, #EFA7B5);
+  color: var(--white, #ffffff);
+  box-shadow: 0 6px 15px rgba(239, 167, 181, 0.25);
+  transform: translateY(-2px);
+}
+
+.btn-insta-icon {
+  font-size: 18px;
+}
+
+@media (max-width: 768px) {
+  .instagram-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .instagram-desc {
+    margin-bottom: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .instagram-grid {
+    grid-template-columns: 1fr;
+  }
+}

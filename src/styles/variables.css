@@ -1,0 +1,25 @@
+:root {
+    --background: #ffffff;
+    --cream: #FFF8EF;
+    --beige: #FAF8F5;
+    
+    --gold: #C89B3C;
+    --gold-light: #E5C16E;
+    --pink: #EFA7B5;
+    --pink-light: #FAD1D8;
+    
+    --sage: #BFC8A4;
+    --rose: #C96D7A;
+    --brown: #43352D;
+    --dark: #1b1b1b;
+    --white: #ffffff;
+    
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Poppins', sans-serif;
+    --font-script: 'Great Vibes', cursive;
+    
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    --shadow-hover: 0 15px 40px rgba(200, 155, 60, 0.15);
+    
+    --transition: .35s cubic-bezier(.25, .8, .25, 1);
+}
