@@ -1,5 +1,5 @@
 import React,{useState} from "react";
-import {Link, useLocation} from "react-router-dom";
+import {Link,useLocation} from "react-router-dom";
 import {FaPhoneAlt,FaBars,FaTimes} from "react-icons/fa";
 import logoImg from "../../assets/images/logo3.png";
 import "./Navbar.css";
@@ -7,14 +7,14 @@ import "./Navbar.css";
 export default function Navbar () {
   const [isOpen,setIsOpen]=useState(false);
   const [activeLink,setActiveLink]=useState("Home");
-  const location = useLocation();
+  const location=useLocation();
 
   const navLinks=[
     {name: "Home",href: "#home"},
     {name: "Meet Prity",href: "#meet-prity"},
-    {name: "Portfolio",href: "#portfolio"},
     {name: "What we offer",href: "#what-we-offer"},
-    {name: "Blog",href: "#blog"},
+    {name: "Portfolio",href: "#portfolio"},
+    {name: "Blog",href: "#instagram-feed"},
     {name: "Contact Us",href: "#contact-us"}
   ];
 
@@ -23,9 +23,9 @@ export default function Navbar () {
     setIsOpen(false);
   };
 
-  const getLinkTarget = (href) => {
-    if (location.pathname === "/admin") {
-      return href.startsWith("#") ? "/" + href : href;
+  const getLinkTarget=(href) => {
+    if (location.pathname==="/admin") {
+      return href.startsWith("#")? "/"+href:href;
     }
     return href;
   };
@@ -34,7 +34,7 @@ export default function Navbar () {
     <nav className="navbar">
       <div className="navbar-container">
         {/* Logo Section */}
-        <Link to={location.pathname === "/admin" ? "/" : "#home"} className="navbar-logo" onClick={() => handleLinkClick("Home")}>
+        <Link to={location.pathname==="/admin"? "/":"#home"} className="navbar-logo" onClick={() => handleLinkClick("Home")}>
           <img src={logoImg} alt="PritySah Makeovers" />
         </Link>
 

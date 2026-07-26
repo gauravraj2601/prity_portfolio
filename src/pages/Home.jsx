@@ -9,7 +9,7 @@ import InstagramFeed from "../components/InstagramFeed/InstagramFeed";
 import ContactFooter from "../components/ContactFooter/ContactFooter";
 import "./Home.css";
 
-export default function Home() {
+export default function Home () {
   return (
     <div className="home">
       {/* 1. Hero Banner */}

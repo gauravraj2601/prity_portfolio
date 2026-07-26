@@ -74,7 +74,9 @@
   z-index: 3;
 }
 
-.instagram-card:hover .instagram-overlay {
+.instagram-card:hover .instagram-overlay,
+.instagram-card:focus-within .instagram-overlay,
+.instagram-card:active .instagram-overlay {
   opacity: 1;
 }
 
@@ -123,13 +125,21 @@
   gap: 6px;
   background-color: var(--gold, #C89B3C);
   color: var(--white, #ffffff);
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: 20px;
   font-family: var(--font-body, 'Poppins', sans-serif);
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  text-decoration: none;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.instagram-follow-badge:hover {
+  background-color: #b2852e;
+  transform: scale(1.05);
 }
 
 .insta-follow-icon {

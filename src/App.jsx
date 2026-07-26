@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home";
 import AdminPortfolio from "./pages/AdminPortfolio";
+import PortfolioDetails from "./pages/PortfolioDetails";
 import ScrollToHash from "./components/ScrollToHash";
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admin" element={<AdminPortfolio />} />
+        <Route path="/portfolio/:id" element={<PortfolioDetails />} />
       </Routes>
     </BrowserRouter>
   );

@@ -51,14 +51,8 @@ export default function InstagramFeed () {
         </p>
 
         <div className="instagram-grid">
-          {displayFeed.map((item) => (
-            <a
-              key={item._id||item.id}
-              href={item.reel_url||"https://www.instagram.com/artistprity70023?igsh=czdveDdhM3p5cTls"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="instagram-card"
-            >
+          {displayFeed?.map((item) => (
+            <div key={item._id||item.id} className="instagram-card">
               <img src={item.cover_image_url} alt={item.caption||"Instagram Reel Cover"} className="instagram-img" />
 
               {/* Reel Icon Badge */}
@@ -77,12 +71,17 @@ export default function InstagramFeed () {
                     <FaComment className="stat-icon" /> {item.comments_count||"0"}
                   </span>
                 </div>
-                <div className="instagram-follow-badge">
+                <a
+                  href={item.reel_url||"https://www.instagram.com/artistprity70023?igsh=czdveDdhM3p5cTls"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="instagram-follow-badge"
+                >
                   <FaInstagram className="insta-follow-icon" />
                   <span>View Post</span>
-                </div>
+                </a>
               </div>
-            </a>
+            </div>
           ))}
         </div>
 
