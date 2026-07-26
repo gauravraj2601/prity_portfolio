@@ -8,7 +8,7 @@ const API_BASE_URL=import.meta.env.VITE_API_URL||"https://server-prity-portfolio
 console.log("API_BASE_URL",API_BASE_URL);
 // Reusable Before/After Slider Component
 function BeforeAfterSlider ({afterImage,title}) {
-  const [sliderPosition,setSliderPosition]=useState(50);
+  const [sliderPosition,setSliderPosition]=useState(0);
 
   const handleSliderChange=(e) => {
     setSliderPosition(e.target.value);
@@ -92,42 +92,48 @@ export default function PortfolioGrid () {
       id: 1,
       title: "Royal Red Bridal Look",
       category: "Bridal",
+      description: "Exquisite royal red bridal makeover with HD flawless base and bold lip accent.",
       image: bridalImg
     },
     {
       id: 2,
       title: "Cocktail Glam Look",
       category: "Party",
+      description: "Chic shimmer eyes with soft nude lips designed for glamorous evening parties.",
       image: partyImg
     },
     {
       id: 3,
       title: "Soft Pastel Engagement Look",
       category: "Engagement",
+      description: "Subtle peach and pink pastel hues highlighting natural radiance for ring ceremony.",
       image: engagementImg
     },
     {
       id: 4,
       title: "Glitz & Gold Reception Look",
       category: "Reception",
+      description: "Dazzling golden eye glow paired with sophisticated hair styling for reception night.",
       image: bridalImg
     },
     {
       id: 5,
       title: "Classic Traditional Makeover",
       category: "Traditional",
+      description: "Timeless traditional makeover celebrating cultural elegance and graceful contours.",
       image: bridalImg
     },
     {
       id: 6,
       title: "Flawless HD Portfolio Shoot",
       category: "HD Makeup",
+      description: "High-definition camera ready studio look created for high-resolution portfolio photography.",
       image: partyImg
     }
   ];
 
   // Combine code-level items with uploaded items (uploaded show after)
-  const combinedItems=[...portfolioItems,...uploadedItems];
+  const combinedItems=[...uploadedItems,...portfolioItems];
 
   // Filter items by category
   const filteredItems=activeCategory==="All"
@@ -151,7 +157,7 @@ export default function PortfolioGrid () {
 
         {/* Categories Tab Filter */}
         <div className="portfolio-tabs">
-          {categories.map(cat => (
+          {categories?.map(cat => (
             <button
               key={cat}
               className={`portfolio-tab ${activeCategory===cat? "active":""}`}
@@ -172,6 +178,7 @@ export default function PortfolioGrid () {
               <div className="portfolio-info">
                 <span className="portfolio-category">{item.category}</span>
                 <h3 className="portfolio-title">{item.title}</h3>
+                {item.description && <p className="portfolio-description">{item.description}</p>}
               </div>
             </div>
           ))}
