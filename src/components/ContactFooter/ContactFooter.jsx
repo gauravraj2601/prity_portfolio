@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {FaPhoneAlt,FaWhatsapp,FaInstagram,FaEnvelope,FaMapMarkerAlt,FaYoutube} from "react-icons/fa";
 import "./ContactFooter.css";
 
@@ -124,7 +125,11 @@ export default function ContactFooter () {
       <div className="footer-credits">
         <div className="container credits-container">
           <p className="copyright">&copy; {currentYear} Prity Sah Makeovers. All Rights Reserved.</p>
-          <p className="developer">Designed with passion for visual excellence</p>
+          <div className="footer-bottom-links" style={{ display: "flex", gap: "10px", alignItems: "center", justifyContent: "center", flexWrap: "wrap" }}>
+            <span className="developer">Designed with passion for visual excellence</span>
+            <span className="divider" style={{ opacity: 0.4 }}>|</span>
+            <Link to="/admin" className="admin-link-footer" style={{ color: "var(--gold-light, #E5C16E)", fontWeight: "500", textDecoration: "underline", transition: "color 0.3s" }}>Admin Panel</Link>
+          </div>
         </div>
       </div>
     </footer>
