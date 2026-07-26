@@ -1,4 +1,5 @@
 import React,{useState} from "react";
+import {Link, useLocation} from "react-router-dom";
 import {FaPhoneAlt,FaBars,FaTimes} from "react-icons/fa";
 import logoImg from "../../assets/images/logo3.png";
 import "./Navbar.css";
@@ -6,6 +7,7 @@ import "./Navbar.css";
 export default function Navbar () {
   const [isOpen,setIsOpen]=useState(false);
   const [activeLink,setActiveLink]=useState("Home");
+  const location = useLocation();
 
   const navLinks=[
     {name: "Home",href: "#home"},
@@ -21,13 +23,20 @@ export default function Navbar () {
     setIsOpen(false);
   };
 
+  const getLinkTarget = (href) => {
+    if (location.pathname === "/admin") {
+      return href.startsWith("#") ? "/" + href : href;
+    }
+    return href;
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
         {/* Logo Section */}
-        <a href="#home" className="navbar-logo" onClick={() => handleLinkClick("Home")}>
+        <Link to={location.pathname === "/admin" ? "/" : "#home"} className="navbar-logo" onClick={() => handleLinkClick("Home")}>
           <img src={logoImg} alt="PritySah Makeovers" />
-        </a>
+        </Link>
 
         {/* Hamburger Menu Icon */}
         <div className="navbar-menu-icon" onClick={() => setIsOpen(!isOpen)}>
@@ -38,13 +47,13 @@ export default function Navbar () {
         <ul className={`navbar-links ${isOpen? "active":""}`}>
           {navLinks.map((link) => (
             <li key={link.name} className="navbar-item">
-              <a
-                href={link.href}
+              <Link
+                to={getLinkTarget(link.href)}
                 className={`navbar-link ${activeLink===link.name? "active":""}`}
                 onClick={() => handleLinkClick(link.name)}
               >
                 {link.name}
-              </a>
+              </Link>
             </li>
           ))}
           {/* Mobile-only Phone Contact */}
