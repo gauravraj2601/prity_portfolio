@@ -1,65 +1,113 @@
 import React,{useState,useEffect} from "react";
+import {useNavigate} from "react-router-dom";
+import {FaImages} from "react-icons/fa";
 import "./PortfolioGrid.css";
 import bridalImg from "../../assets/images/bridal_portfolio.png";
 import partyImg from "../../assets/images/party_portfolio.png";
 import engagementImg from "../../assets/images/engagement_portfolio.png";
 
 const API_BASE_URL=import.meta.env.VITE_API_URL||"https://server-prity-portfolio.onrender.com";
-console.log("API_BASE_URL",API_BASE_URL);
-// Reusable Before/After Slider Component
-function BeforeAfterSlider ({afterImage,title}) {
-  const [sliderPosition,setSliderPosition]=useState(0);
+
+// Premium Stacked Photo Card Slider Component (Bidirectional Left-Right & Right-Left)
+function StackedPhotoSlider ({photos,fallbackImage,title}) {
+  const [sliderPosition,setSliderPosition]=useState(0); // -100 to +100 (0 = center)
+  const [currentIndex,setCurrentIndex]=useState(0);
+  const [slideDirection,setSlideDirection]=useState(""); // "right" or "left"
+
+  const imageList=photos&&photos.length>0? photos:[fallbackImage];
+  const frontPhoto=imageList[currentIndex%imageList.length];
 
   const handleSliderChange=(e) => {
-    setSliderPosition(e.target.value);
+    const val=Number(e.target.value);
+    setSliderPosition(val);
+
+    // Slide Right -> Next photo
+    if (val>=75&&imageList.length>1&&!slideDirection) {
+      setSlideDirection("right");
+      setTimeout(() => {
+        setCurrentIndex((prev) => (prev+1)%imageList.length);
+        setSliderPosition(0);
+        setSlideDirection("");
+      },350);
+    }
+    // Slide Left -> Previous photo
+    else if (val<=-75&&imageList.length>1&&!slideDirection) {
+      setSlideDirection("left");
+      setTimeout(() => {
+        setCurrentIndex((prev) => (prev-1+imageList.length)%imageList.length);
+        setSliderPosition(0);
+        setSlideDirection("");
+      },350);
+    }
   };
 
+  const handleResetSlider=() => {
+    if (!slideDirection) {
+      setSliderPosition(0);
+    }
+  };
+
+  // Convert position -100..100 to percentage for handle placement (0 = 50%)
+  const handleLeftPercentage=50+sliderPosition*0.45;
+
   return (
-    <div className="ba-slider-container">
-      {/* After Image (Full background) */}
-      <img src={afterImage} alt={`${title} After`} className="ba-image after-image" />
-      <span className="ba-label label-after">AFTER (GLAM)</span>
+    <div className="stacked-photo-container">
+      {/* Background Stacked Card Layers (Underneath) */}
+      {[1,2,3,4].map((layerIndex) => {
+        const picSrc=imageList[(currentIndex+layerIndex)%imageList.length]||fallbackImage;
+        return (
+          <div
+            key={layerIndex}
+            className={`stacked-card-bg stack-layer-${layerIndex}`}
+          >
+            <img src={picSrc} alt={`${title} layer ${layerIndex}`} />
+          </div>
+        );
+      })}
 
-      {/* Before Image (Clipped overlay using clip-path to prevent warping) */}
+      {/* Front Main Card (Animates dynamically left or right) */}
       <div
-        className="ba-before-wrapper"
-        style={{clipPath: `polygon(0 0, ${sliderPosition}% 0, ${sliderPosition}% 100%, 0 100%)`,width: "100%"}}
+        className={`stacked-card-front ${slideDirection==="right"
+          ? "sliding-out-right"
+          :slideDirection==="left"
+            ? "sliding-out-left"
+            :""
+          }`}
+        style={{
+          transform: `translateX(${sliderPosition*3.2}px) rotate(${sliderPosition*0.15}deg)`,
+          opacity: 1-Math.abs(sliderPosition)*0.007,
+        }}
       >
-        <img
-          src={afterImage}
-          alt={`${title} Before`}
-          className="ba-image before-image"
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            filter: "saturate(0.55) contrast(0.85) brightness(0.9) blur(0.2px)"
-          }}
-        />
-        <span className="ba-label label-before">BEFORE</span>
+        <img src={frontPhoto} alt={title} />
       </div>
 
-      {/* Slider Bar & Handle */}
-      <div className="ba-slider-bar" style={{left: `${sliderPosition}%`}}>
-        <div className="ba-slider-handle">↔</div>
-      </div>
-
-      {/* Transparent Input Range */}
-      <input
-        type="range"
-        min="0"
-        max="100"
-        value={sliderPosition}
-        onChange={handleSliderChange}
-        className="ba-range-input"
-        aria-label="Before/After Slider"
-      />
+      {/* Interactive Drag Handle for Multi-Photo Stack */}
+      {imageList.length>1&&(
+        <>
+          <div className="stack-slider-handle" style={{left: `calc(${handleLeftPercentage}% - 18px)`}}>
+            ↔
+          </div>
+          <input
+            type="range"
+            min="-100"
+            max="100"
+            value={sliderPosition}
+            onChange={handleSliderChange}
+            onMouseUp={handleResetSlider}
+            onTouchEnd={handleResetSlider}
+            onClick={(e) => e.stopPropagation()}
+            className="stack-range-input"
+            aria-label="Slide photo stack left or right"
+          />
+        </>
+      )}
     </div>
   );
 }
 
 export default function PortfolioGrid () {
   const categories=["All","Bridal","Party","Engagement","Reception","Traditional","HD Makeup"];
+  const navigate=useNavigate();
 
   const [activeCategory,setActiveCategory]=useState("All");
   const [visibleCount,setVisibleCount]=useState(3);
@@ -71,11 +119,18 @@ export default function PortfolioGrid () {
         const response=await fetch(`${API_BASE_URL}/api/portfolio_images`);
         if (response.ok) {
           const data=await response.json();
-          const formatted=data.map((item) => ({
-            ...item,
-            id: item._id,
-            image: item.image_url,
-          }));
+          const formatted=data.map((item) => {
+            const allPhotoUrls=item.images&&item.images.length>0
+              ? item.images.map(img => img.image_url)
+              :[item.image_url];
+            return {
+              ...item,
+              id: item._id,
+              image: allPhotoUrls[0],
+              allPhotos: allPhotoUrls,
+              isBeforeAfter: Boolean(item.isBeforeAfter),
+            };
+          });
           setUploadedItems(formatted);
           return;
         }
@@ -93,42 +148,48 @@ export default function PortfolioGrid () {
       title: "Royal Red Bridal Look",
       category: "Bridal",
       description: "Exquisite royal red bridal makeover with HD flawless base and bold lip accent.",
-      image: bridalImg
+      image: bridalImg,
+      allPhotos: [bridalImg]
     },
     {
       id: 2,
       title: "Cocktail Glam Look",
       category: "Party",
       description: "Chic shimmer eyes with soft nude lips designed for glamorous evening parties.",
-      image: partyImg
+      image: partyImg,
+      allPhotos: [partyImg]
     },
     {
       id: 3,
       title: "Soft Pastel Engagement Look",
       category: "Engagement",
       description: "Subtle peach and pink pastel hues highlighting natural radiance for ring ceremony.",
-      image: engagementImg
+      image: engagementImg,
+      allPhotos: [engagementImg]
     },
     {
       id: 4,
       title: "Glitz & Gold Reception Look",
       category: "Reception",
       description: "Dazzling golden eye glow paired with sophisticated hair styling for reception night.",
-      image: bridalImg
+      image: bridalImg,
+      allPhotos: [bridalImg]
     },
     {
       id: 5,
       title: "Classic Traditional Makeover",
       category: "Traditional",
       description: "Timeless traditional makeover celebrating cultural elegance and graceful contours.",
-      image: bridalImg
+      image: bridalImg,
+      allPhotos: [bridalImg]
     },
     {
       id: 6,
       title: "Flawless HD Portfolio Shoot",
       category: "HD Makeup",
       description: "High-definition camera ready studio look created for high-resolution portfolio photography.",
-      image: partyImg
+      image: partyImg,
+      allPhotos: [partyImg]
     }
   ];
 
@@ -147,6 +208,10 @@ export default function PortfolioGrid () {
   const handleCategoryChange=(cat) => {
     setActiveCategory(cat);
     setVisibleCount(3); // Reset visible items on category swap
+  };
+
+  const handleCardClick=(item) => {
+    navigate(`/portfolio/${item.id}`);
   };
 
   return (
@@ -170,18 +235,38 @@ export default function PortfolioGrid () {
 
         {/* Portfolio Cards Grid */}
         <div className="portfolio-grid">
-          {filteredItems.slice(0,visibleCount).map(item => (
-            <div className="portfolio-card" key={item.id}>
-              {/* Slider widget */}
-              <BeforeAfterSlider afterImage={item.image} title={item.title} />
+          {filteredItems.slice(0,visibleCount).map(item => {
+            const photoCount=item.allPhotos? item.allPhotos.length:1;
+            return (
+              <div
+                className="portfolio-card clickable-portfolio-card"
+                key={item.id}
+                onClick={() => handleCardClick(item)}
+              >
+                {/* Render StackedPhotoSlider when isBeforeAfter is false */}
+                {item.isBeforeAfter? (
+                  <StackedPhotoSlider photos={item.allPhotos} fallbackImage={item.image} title={item.title} />
+                ):(
+                  <div className="standard-portfolio-img-wrapper" style={{position: "relative",width: "100%",height: "380px",overflow: "hidden",borderRadius: "18px"}}>
+                    <img src={item.image} alt={item.title} style={{width: "100%",height: "100%",objectFit: "cover"}} />
+                  </div>
+                )}
 
-              <div className="portfolio-info">
-                <span className="portfolio-category">{item.category}</span>
-                <h3 className="portfolio-title">{item.title}</h3>
-                {item.description && <p className="portfolio-description">{item.description}</p>}
+                {photoCount>1&&(
+                  <div className="multi-photo-badge">
+                    <FaImages /> {photoCount} Photos
+                  </div>
+                )}
+
+                <div className="portfolio-info">
+                  <span className="portfolio-category">{item.category}</span>
+                  <h3 className="portfolio-title">{item.title}</h3>
+                  {item.description&&<p className="portfolio-description">{item.description}</p>}
+                  <span className="view-gallery-hint">Click to view full gallery →</span>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Load More Button */}
